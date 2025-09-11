@@ -4,3 +4,4 @@ ansible all -m gather_facts --limit 10.64.123.84
 ansible all -m yum -a update_cache=true
 ansible all -m yum -a update_cache=true --become --ask-become-pass
 ansible all -m yum -a name=vim-nox  --become --ask-become-pass
+ansible all -m gather_facts  | grep -ie distribution\b\|hostname
