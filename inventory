@@ -1,4 +1,4 @@
-10.64.123.84
-10.61.145.9
-10.60.139.92 
-10.64.46.64
+10.64.123.84 apache_package=httpd php_package=php
+10.64.46.64 apache_package=apache2 php_package=libapache2-mod-php
+10.60.139.92 apache_package=httpd php_package=php
+10.61.145.9 apache_package=httpd php_package=php

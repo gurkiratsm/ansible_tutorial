@@ -2,23 +2,14 @@
 
 - hosts: all
   become: true
+  # gather_facts: false
   tasks:
 
-    - name: update repository index and install httpd and php package with yum
-      yum:
+    - name: update repository index and install apache and php package 
+      package:
         name: 
-          - httpd
-          - php
-        state: latest
-        update_cache: yes        
-      when: ansible_distribution == "RedHat" or ansible_distribution == "Fedora"
-      # when: ansible_distribution in ["RedHat", "Fedora"]
-
-    - name: update repository index and install apache2  and libapache2-mod-php package with apt
-      apt: 
-        name: 
-          - apache2
-          - libapache2-mod-php
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
         state: latest
         update_cache: yes
-      when: ansible_distribution == "Kali"
+    
