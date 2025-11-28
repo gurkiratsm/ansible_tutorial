@@ -1,0 +1,73 @@
+---
+
+## Ansible Playbook to install Apache and PHP packages on target hosts as per inventory2 groups
+
+- hosts: all # to run on all the hosts mentioned in inventory file
+  become: true # to run the tasks with sudo privileges
+  pre_tasks: # tasks to be executed before main tasks
+
+    - name: update repository index for RedHat based systems 
+      yum:
+        update_cache: yes # to update the repository index
+      when: ansible_distribution in ["RedHat", "Fedora"] #Refers to the fact gathered value of distribution
+
+    # - name: update repository index  for Kali
+    #   apt:
+    #     update_cache: yes
+    #   when: ansible_distribution in ["Kali"]
+
+- hosts: Fedora
+  become: true
+  gather_facts: false
+  tasks:
+    - name: List files in /tmp/ directory
+      command: ls -al /tmp/
+      register: output 
+
+    - name: Print the output
+      debug:
+        var: output.stdout_lines
+
+- hosts: KALI
+  become: true
+  gather_facts: false
+  tasks:
+  - name: execute shell command
+    shell: cat /etc/os-release
+    register: shell_output
+  - name: print shell command output
+    debug:
+      var: shell_output.stdout_lines
+        
+# - hosts: RHEL
+#   become: true 
+#   tasks:
+
+#     - name: install package with RHEL based systems
+#       dnf:
+#         name: 
+#         - httpd
+#         - php
+#         state: latest
+
+# - hosts: FEDORA
+#   become: true
+#   tasks:
+
+#     - name: install package with Fedora based systems
+#       yum:
+#         name: 
+#         - httpd
+#         - php
+#         state: latest
+
+# - hosts: KALI
+#   become: true
+#   tasks:
+#     - name: install apache2 package on Kali
+#       apt:
+#         name: 
+#           - apache2
+#           - libapache2-mod-php
+#         state: latest
+
