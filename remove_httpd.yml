@@ -6,13 +6,13 @@
 
     - name: update repository index with yum
       yum:
-        update_cache: yes
-      when: ansible_distribution in ["RedHat", "Fedora"]
+        update_cache: yes #install latest package info
+      when: ansible_distribution in ["RedHat", "Fedora"] #Refers Gathered Facts and implies condition only RedHat and Fedora
 
     - name: remove httpd package with yum
       yum:
-        name: httpd
-        state: absent
+        name: httpd 
+        state: absent #remove package
       when: ansible_distribution == "RedHat" or ansible_distribution == "Fedora"
 
     - name: remove php package with yum

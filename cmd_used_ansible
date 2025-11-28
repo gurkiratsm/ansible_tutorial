@@ -1,7 +1,16 @@
-ansible all --key-file ~/.ssh/id_rsa -i inventory  -m ping
-ansible all -m gather_facts
-ansible all -m gather_facts --limit 10.64.123.84
-ansible all -m yum -a update_cache=true
-ansible all -m yum -a update_cache=true --become --ask-become-pass
-ansible all -m yum -a name=vim-nox  --become --ask-become-pass
-ansible all -m gather_facts  | grep -ie distribution\b\|hostname
+Common Commands:
+  - "ansible all --key-file ~/.ssh/id_rsa -i inventory -m ping" # ping all hosts using specified inventory file and ssh key
+  - "ansible all --list-hosts" # will refer ansible.cfg for inventory file
+  - "ansible RHEL --list-hosts" # will refer ansible.cfg for inventory file and refer only RHEL group hosts
+
+Module Used:
+  - "ansible all -m gather_facts" # to gather facts of all hosts
+  - "ansible all -m gather_facts --limit 10.64.123.84" # to gather facts of specific host
+  - "ansible all -m gather_facts | grep -ie distribution\\b\\|hostname" # to filter distribution and hostname from gathered facts
+  - "ansible all -m yum -a update_cache=true" # to update repository cache on all hosts
+  - "ansible all -m yum -a update_cache=true --become --ask-become-pass" # to update repository cache on all hosts with sudo privileges
+  - "ansible all -m yum -a name=vim-nox --become --ask-become-pass" # to install vim-nox package on all hosts with sudo privileges
+  - "ansible all -m shell -a 'cat /etc/os-release' --become --ask-become-pass" # to run shell command on all hosts with sudo privileges
+
+Playbook Commands:
+  - "ansible-playbook install_httpd.yml --become --ask-become-pass" # to run install_httpd.yml playbook with sudo privileges

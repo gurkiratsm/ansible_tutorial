@@ -1,15 +1,14 @@
 ---
 
-- hosts: all
-  become: true
+- hosts: all # to run on all the hosts mentioned in inventory1 file
+  become: true # to run the tasks with sudo privileges
   # gather_facts: false
-  tasks:
+  tasks: # main tasks to be executed on all hosts
 
-    - name: update repository index and install apache and php package 
-      package:
+    - name: update repository index and install apache and php package  
+      package: # universal package manager module
         name: 
-          - "{{ apache_package }}"
-          - "{{ php_package }}"
+          - "{{ apache_package }}" # variable to hold apache package name reference in inventory1 file
+          - "{{ php_package }}" # variable to hold php package name reference in inventory1 file
         state: latest
         update_cache: yes
-    
