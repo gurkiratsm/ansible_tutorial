@@ -1,0 +1,51 @@
+- hosts: FEDORA
+  become: true
+  tags: copy_files, install_terraform
+  gather_facts: true
+  tasks:
+    - name: Ensure httpd is installed
+      package:
+        name: httpd
+        state: present
+        # update_cache: yes
+
+    - name: Ensure httpd service is running and enabled
+      service:
+        name: httpd
+        state: started
+        # enabled: yes
+        
+    - name: Copy files from source to destination
+      copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+    
+    - name: change email address in the file
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^ServerAdmin'
+        line: 'ServerAdmin root@localhost'
+      register: email_change_result
+
+    - name: Restart httpd service to apply changes
+      service:
+        name: httpd
+        state: restarted
+      when: email_change_result.changed
+      
+    # - name: Install unzip
+    #   package:
+    #     name: unzip
+    #     state: present
+    
+    # - name: Install Terraform
+    #   unarchive:
+    #     src: https://releases.hashicorp.com/terraform/1.14.5/terraform_1.14.5_linux_amd64.zip
+    #     dest: /usr/local/bin/
+    #     remote_src: yes
+    #     mode: '0755'
+    #     owner: root
+    #     group: root
