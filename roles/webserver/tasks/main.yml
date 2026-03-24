@@ -1,0 +1,32 @@
+- name: Ensure httpd is installed
+  ansible.builtin.package:
+    name: httpd
+    state: present
+    # update_cache: yes
+
+- name: Ensure httpd service is running and enabled
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Copy files from source to destination
+  ansible.builtin.copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Change email address in the file
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerAdmin'
+    line: 'ServerAdmin root@localhost'
+  register: email_change_result
+
+- name: Restart httpd service to apply changes
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+  when: email_change_result.changed

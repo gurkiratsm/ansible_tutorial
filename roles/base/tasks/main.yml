@@ -1,0 +1,14 @@
+- name: Execute shell command
+  ansible.builtin.command: cat /etc/os-release
+  register: shell_output
+  changed_when: false
+
+- name: Print shell command output
+  ansible.builtin.debug:
+    var: shell_output.stdout_lines
+
+- name: Add SSH key
+  tags: create_user
+  ansible.posix.authorized_key:
+    user: ansible
+    key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDoDnegeY5v982PUGogdBs+8pYbTbGDvdDx8KYLeSWOUl639b/lzGGC+PwAkd8/l/YqghRqR/8u1XyXSHQKBblike2dWGB57tj/Yf+933W3yUtjlSVkptguPcVurxBlHe/Vyq0RlxTWutaJC5vZ9P5jIQl8h2cCfq5z56OuASk30+YTZ4DdDonz1IVsXyokAXjEGwrlFKuOn7pbGBVUoGrMdJNpAsGxo1j0BG+UF3oMJwyh++VNaCPrgQOpQKUWtJN5ymOK5gqRmjZWGUs+3oDDuSglCQXFWxiOhZF7DZECtU6yD9/uNSWeg2ZZQQbL8JQL1A+6182nL9UJOEYbGuFR gurkirat@ssh-server"

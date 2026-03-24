@@ -16,4 +16,8 @@ Playbook Commands:
   - "ansible-playbook install_httpd.yml --become --ask-become-pass" # to run install_httpd.yml playbook with sudo privileges
   - "ansible-playbook --list-tags site.yaml" # to list all tags used in site.yaml playbook
   - "ansible-playbook --tags shell site.yaml --become --ask-become-pass" # to run only tasks with 'shell' tag from site.yaml playbook with sudo privileges
-  - "ansible-playbook --tags "shell,install_apache_php" site.yaml --become --ask-become-pass" # to run only tasks with 'shell' and 'install_apache_php' tags 
+  - "ansible-playbook --tags "shell,install_apache_php" site.yaml --become --ask-become-pass" # to run only tasks with 'shell' and 'install_apache_php' tags
+  - "ansible-playbook site.yaml --user ansible" # to run site.yaml playbook with REMOTE_USER as ansible
+
+Galaxy Commands:
+- "ansible-galaxy collection install a10.acos_axapi"
