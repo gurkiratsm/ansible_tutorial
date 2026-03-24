@@ -1,12 +1,12 @@
 - name: Ensure httpd is installed
   ansible.builtin.package:
-    name: httpd
+    name: "{{ apache_package }}"
     state: present
     # update_cache: yes
 
 - name: Ensure httpd service is running and enabled
   ansible.builtin.service:
-    name: httpd
+    name: "{{ apache_service }}"
     state: started
     enabled: true
 
@@ -22,11 +22,12 @@
   ansible.builtin.lineinfile:
     path: /etc/httpd/conf/httpd.conf
     regexp: '^ServerAdmin'
-    line: 'ServerAdmin root@localhost'
-  register: email_change_result
+    line: 'ServerAdmin root@localhost.com'
+  # register: email_change_result
+  notify: Restart httpd
 
-- name: Restart httpd service to apply changes
-  ansible.builtin.service:
-    name: httpd
-    state: restarted
-  when: email_change_result.changed
+# - name: Restart httpd service to apply changes
+#   ansible.builtin.service:
+#     name: "{{ apache_service }}"
+#     state: restarted
+#   when: email_change_result.changed
